@@ -8,13 +8,11 @@
     <!-- BEST PRACTICES FIX: Added a basic Content-Security-Policy meta tag. Server-side headers are still recommended. -->
 	<meta http-equiv="Content-Security-Policy" content="
 	    default-src 'self';
-	    script-src 'self' 'unsafe-inline';
+	    script-src 'self' 'unsafe-inline' https://connect.facebook.net;
 	    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
 	    font-src 'self' https://fonts.gstatic.com;
-	    img-src 'self' data:;
-	    connect-src 'self' https://api.engazcrm.net;
-		connect-src 'self' https://connect.facebook.net;
-		connect-src 'self' https://www.facebook.com;
+	    img-src 'self' data: https://www.facebook.com;
+	    connect-src 'self' https://api.engazcrm.net https://connect.facebook.net https://www.facebook.com;
 	">	
     <title>مول مزايا | مزايا كابيتال</title>
 
