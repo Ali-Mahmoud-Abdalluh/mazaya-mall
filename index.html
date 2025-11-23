@@ -497,7 +497,7 @@
             
             sections.forEach(section => observer.observe(section));
 
-            // === START: MODIFIED FORM HANDLING CODE ===
+            // === START: FORM HANDLING CODE WITH REDIRECTION ===
             const contactForm = document.getElementById('contactForm');
             const submitBtn = contactForm.querySelector('.submit-btn');
             
@@ -545,22 +545,23 @@
                     // --- 5. DEBUG AND HANDLE THE RESPONSE ---
                     console.log('Request Payload:', payload);
                     console.log('Raw Response Status:', response.status);
-                    const responseData = await response.json().catch(() => ({})); // Handle cases where response is not JSON
+                    const responseData = await response.json().catch(() => ({})); 
                     console.log('CRM API Response Data:', responseData);
 
                     if (!response.ok) {
                         throw new Error(`Server responded with ${response.status}: ${responseData.message || response.statusText}`);
                     }
 
-                    // --- SUCCESS ---
+                    // --- SUCCESS & REDIRECT ---
                     submitBtn.innerHTML = currentLang === 'ar' ? 
                         'تم الإرسال بنجاح! <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>' : 
                         'Sent Successfully! <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>';
                     submitBtn.style.background = '#28a745';
                     submitBtn.style.transform = 'scale(1)';
                     
+                    // Redirect to Thank You page after 1 second
                     setTimeout(() => {
-                        contactForm.reset();
+                        window.location.href = 'thankyou.html';
                     }, 1000);
 
                 } catch (error) {
@@ -572,8 +573,7 @@
                     submitBtn.style.background = '#dc3545';
                     submitBtn.style.transform = 'scale(1)';
 
-                } finally {
-                    // --- RESET BUTTON AFTER 3 SECONDS (REGARDLESS OF SUCCESS/FAILURE) ---
+                    // Reset button after 3 seconds on error
                     setTimeout(() => {
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = originalButtonHTML;
@@ -581,7 +581,7 @@
                     }, 3000);
                 }
             });
-            // === END: MODIFIED FORM HANDLING CODE ===
+            // === END: FORM HANDLING CODE WITH REDIRECTION ===
 
             // Enhanced Card Interactions
             const cards = document.querySelectorAll('.feature-card, .offer-card, .area-card, .price-card');
